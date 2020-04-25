@@ -7,13 +7,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-const (
-	AWS_S3_REGION = "ap-southeast-1"
-	AWS_S3_BUCKET = "ezza-videos"
-)
-
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", handlers.PostFile)
+	router.HandleFunc("/", handlers.PostFile).Methods("POST")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
