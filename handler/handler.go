@@ -1,5 +1,5 @@
 // Handling all of the route regarding s3 operation
-package handlers
+package handler
 
 import (
 	"fmt"
@@ -20,6 +20,10 @@ type Response struct {
 
 type ErrorResponse struct {
 	Error string
+}
+
+func Home(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Welcome home!")
 }
 
 func PostFile(w http.ResponseWriter, r *http.Request) {
