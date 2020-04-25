@@ -5,10 +5,13 @@ import (
 	"log"
 	"github.com/MieGorenk/s3uploader/handlers"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 )
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", handlers.PostFile).Methods("POST")
-	log.Fatal(http.ListenAndServe(":8080", router))
+	headers := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
+	origins := handlers.AllowedOrigins([]string{"*"})
+	log.Fatal(http.ListenAndServe(":3000", handlers.CORS(headers, methods, origins)(router))
 }
