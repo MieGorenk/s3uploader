@@ -9,6 +9,7 @@ import (
 
 	"github.com/MieGorenk/s3uploader/helpers"
 	"github.com/aws/aws-sdk-go/aws"
+	"github.com/aws/aws-sdk-go/aws/awserr"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/joho/godotenv"
 )
@@ -56,10 +57,14 @@ func PostFile(w http.ResponseWriter, r *http.Request) {
 	// TODO add progress bar when uploading
 	fileURL, err := helpers.UploadFileToS3(session, file, fileHeader)
 	if err != nil {
-		res := ErrorResponse{"No internet connection avalaible"}
-		w.WriteHeader(http.StatusConflict)
-		json.NewEncoder(w).Encode(res)
-		return
+		if aerr, ok := err.(awserr.Error); ok {
+			fmt.Fprint(w, aerr.Code())
+			return
+		}
+		// res := ErrorResponse{"No internet connection avalaible"}
+		// w.WriteHeader(http.StatusConflict)
+		// json.NewEncoder(w).Encode(res)
+		// return
 	}
 
 	res := Response{fileURL}
