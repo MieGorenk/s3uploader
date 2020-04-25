@@ -13,6 +13,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
+// Construct for JSON messagess
 type Response struct {
 	URL string
 }
@@ -47,6 +48,8 @@ func PostFile(w http.ResponseWriter, r *http.Request) {
 		return
 	  }
 
+	// Uploading file to S3 using helper function
+	// TODO add progress bar when uploading
 	fileURL, err := helpers.UploadFileToS3(session, file, fileHeader)
 	if err != nil {
 		res := ErrorResponse{"No internet connection avalaible"}
