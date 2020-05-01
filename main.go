@@ -10,10 +10,11 @@ import (
 
 func main() {
 	router := mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", handler.Home)
-	router.HandleFunc("/resource", handler.PostFile).Methods("POST")
-	headers := handlers.AllowedHeaders([]string{"*"})
+
+	headers := handlers.AllowedHeaders([]string{"*", "localhost"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "HEAD", "OPTIONS"})
 	origins := handlers.AllowedOrigins([]string{"*"})
+	router.HandleFunc("/",handler.Home)
+	router.HandleFunc("/resource", handler.PostFile).Methods("POST", "OPTIONS")
 	log.Fatal(http.ListenAndServe(":3000", handlers.CORS(headers, methods, origins)(router)))
 }

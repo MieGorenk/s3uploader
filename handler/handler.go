@@ -26,11 +26,10 @@ func Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func PostFile(w http.ResponseWriter, r *http.Request) {
-	// Set maximum uploaded file to be 1 GB
-	maxSize := int64(1073741824)
+	// Set maximum uploaded file to be 3 GB
+	maxSize := int64(32221225472)
 	err := r.ParseMultipartForm(maxSize)
 	if err != nil {
-		
 	   fmt.Fprintf(w, err.Error())
 	   return
 	}
