@@ -22,10 +22,12 @@ type ErrorResponse struct {
 }
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Welcome home!")
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(Response{URL:"Hello"})
 }
 
 func PostFile(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
 	// Set maximum uploaded file to be 3 GB
 	maxSize := int64(32221225472)
 	err := r.ParseMultipartForm(maxSize)
@@ -65,6 +67,6 @@ func PostFile(w http.ResponseWriter, r *http.Request) {
 	}
 
 	res := Response{fileURL}
-	w.WriteHeader(http.StatusCreated)
+	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(res)
 }
